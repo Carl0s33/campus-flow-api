@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.controller;
+package com.campusflow.api.controller;
 
 import com.campusflow.api.dto.ScheduleRequestDTO;
 import com.campusflow.api.dto.ScheduleResponseDTO;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(/api/schedules)
+@RequestMapping("/api/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
@@ -28,7 +28,7 @@ public class ScheduleController {
         return service.create(dto);
     }
 
-    @DeleteMapping(/{id})
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         service.delete(id);

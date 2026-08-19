@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.controller;
+package com.campusflow.api.controller;
 
 import com.campusflow.api.dto.ExamRequestDTO;
 import com.campusflow.api.dto.ExamResponseDTO;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(/api/exams)
+@RequestMapping("/api/exams")
 @RequiredArgsConstructor
 public class ExamController {
 
@@ -28,7 +28,7 @@ public class ExamController {
         return service.create(dto);
     }
 
-    @DeleteMapping(/{id})
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {
         service.delete(id);

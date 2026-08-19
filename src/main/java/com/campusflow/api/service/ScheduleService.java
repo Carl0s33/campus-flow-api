@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.service;
+package com.campusflow.api.service;
 
 import com.campusflow.api.domain.model.Discipline;
 import com.campusflow.api.domain.model.Schedule;
@@ -38,7 +38,7 @@ public class ScheduleService {
 
     public void delete(String id) {
         Schedule schedule = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Horário não encontrado));
+                .orElseThrow(() -> new EntityNotFoundException("Horário não encontrado"));
         repository.delete(schedule);
     }
 

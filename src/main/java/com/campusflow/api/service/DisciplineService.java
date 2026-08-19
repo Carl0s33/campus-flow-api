@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.service;
+package com.campusflow.api.service;
 
 import com.campusflow.api.domain.model.Discipline;
 import com.campusflow.api.domain.repository.DisciplineRepository;
@@ -56,7 +56,7 @@ public class DisciplineService {
 
     public Discipline findEntityById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Disciplina não encontrada));
+                .orElseThrow(() -> new EntityNotFoundException("Disciplina não encontrada"));
     }
 
     private void updateEntityFromDTO(Discipline entity, DisciplineRequestDTO dto) {

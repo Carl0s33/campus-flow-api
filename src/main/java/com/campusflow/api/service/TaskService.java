@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.service;
+package com.campusflow.api.service;
 
 import com.campusflow.api.domain.model.Discipline;
 import com.campusflow.api.domain.model.Task;
@@ -56,7 +56,7 @@ public class TaskService {
 
     private Task findEntityById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Tarefa não encontrada));
+                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada"));
     }
 
     private void updateEntityFromDTO(Task entity, TaskRequestDTO dto, Discipline discipline) {

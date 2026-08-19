@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.service;
+package com.campusflow.api.service;
 
 import com.campusflow.api.domain.model.Discipline;
 import com.campusflow.api.domain.model.Exam;
@@ -36,7 +36,7 @@ public class ExamService {
 
     public void delete(String id) {
         Exam exam = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(Prova não encontrada));
+                .orElseThrow(() -> new EntityNotFoundException("Prova não encontrada"));
         repository.delete(exam);
     }
 

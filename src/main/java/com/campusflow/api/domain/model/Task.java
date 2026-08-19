@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = tasks)
+@Table(name = "tasks")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,17 +19,17 @@ public class Task {
     @Column(nullable = false)
     private String title;
 
-    @Column(columnDefinition = TEXT)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false)
     private String dueDate;
 
     @Builder.Default
-    private String type = atividade;
+    private String type = "atividade";
 
     @Builder.Default
-    private String priority = media;
+    private String priority = "media";
 
     @Builder.Default
     private Boolean completed = false;
