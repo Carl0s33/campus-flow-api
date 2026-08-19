@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.dto;
+package com.campusflow.api.dto;
 
 public record ScheduleResponseDTO(
     String id,

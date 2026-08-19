@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.dto;
+package com.campusflow.api.dto;
 
 public record DisciplineResponseDTO(
     String id,
@@ -8,6 +8,7 @@ public record DisciplineResponseDTO(
     String color,
     Integer absences,
     Integer workload,
+    Integer period,
     Double n1,
     Double n2
 ) {}

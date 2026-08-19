@@ -24,6 +24,7 @@ public class Discipline {
     private String code;
     private String teacher;
     private String color;
+    private Integer period;
 
     @Builder.Default
     private Integer absences = 0;

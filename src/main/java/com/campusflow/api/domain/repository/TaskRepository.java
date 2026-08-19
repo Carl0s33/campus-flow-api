@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.domain.repository;
+package com.campusflow.api.domain.repository;
 
 import com.campusflow.api.domain.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -66,6 +66,7 @@ public class DisciplineService {
         entity.setColor(dto.color());
         if (dto.absences() != null) entity.setAbsences(dto.absences());
         if (dto.workload() != null) entity.setWorkload(dto.workload());
+        entity.setPeriod(dto.period());
         entity.setN1(dto.n1());
         entity.setN2(dto.n2());
     }
@@ -79,6 +80,7 @@ public class DisciplineService {
                 discipline.getColor(),
                 discipline.getAbsences(),
                 discipline.getWorkload(),
+                discipline.getPeriod(),
                 discipline.getN1(),
                 discipline.getN2()
         );

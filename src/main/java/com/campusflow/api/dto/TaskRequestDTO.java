@@ -1,7 +1,6 @@
 package com.campusflow.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record TaskRequestDTO(
     @NotBlank(message = "O título é obrigatório")
