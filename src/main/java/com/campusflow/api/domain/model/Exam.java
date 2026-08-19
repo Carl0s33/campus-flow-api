@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.domain.model;
+package com.campusflow.api.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,8 +16,9 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false)
-    private String disciplineId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "discipline_id", nullable = false)
+    private Discipline discipline;
 
     @Column(nullable = false)
     private String title;

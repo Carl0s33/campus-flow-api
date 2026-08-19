@@ -1,10 +1,11 @@
 ﻿package com.campusflow.api.controller;
 
-import com.campusflow.api.domain.model.Discipline;
-import com.campusflow.api.domain.repository.DisciplineRepository;
+import com.campusflow.api.dto.DisciplineRequestDTO;
+import com.campusflow.api.dto.DisciplineResponseDTO;
+import com.campusflow.api.service.DisciplineService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,65 +16,42 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DisciplineController {
 
-    private final DisciplineRepository repository;
+    private final DisciplineService service;
 
     @GetMapping
-    public List<Discipline> listAll() {
-        return repository.findAll();
+    public List<DisciplineResponseDTO> listAll() {
+        return service.listAll();
     }
 
     @GetMapping(/{id})
-    public ResponseEntity<Discipline> getById(@PathVariable String id) {
-        return repository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public DisciplineResponseDTO getById(@PathVariable String id) {
+        return service.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Discipline create(@RequestBody Discipline discipline) {
-        return repository.save(discipline);
+    public DisciplineResponseDTO create(@Valid @RequestBody DisciplineRequestDTO dto) {
+        return service.create(dto);
     }
 
     @PutMapping(/{id})
-    public ResponseEntity<Discipline> update(@PathVariable String id, @RequestBody Discipline discipline) {
-        return repository.findById(id)
-                .map(existing -> {
-                    discipline.setId(id);
-                    return ResponseEntity.ok(repository.save(discipline));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public DisciplineResponseDTO update(@PathVariable String id, @Valid @RequestBody DisciplineRequestDTO dto) {
+        return service.update(id, dto);
     }
 
     @PatchMapping(/{id}/absences)
-    public ResponseEntity<Discipline> updateAbsences(@PathVariable String id, @RequestBody Map<String, Integer> payload) {
-        return repository.findById(id)
-                .map(discipline -> {
-                    if (payload.containsKey(absences)) {
-                        discipline.setAbsences(payload.get(absences));
-                    }
-                    return ResponseEntity.ok(repository.save(discipline));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public DisciplineResponseDTO updateAbsences(@PathVariable String id, @RequestBody Map<String, Integer> payload) {
+        return service.updateAbsences(id, payload.get(absences));
     }
 
     @PatchMapping(/{id}/grades)
-    public ResponseEntity<Discipline> updateGrades(@PathVariable String id, @RequestBody Map<String, Double> payload) {
-        return repository.findById(id)
-                .map(discipline -> {
-                    if (payload.containsKey(n1)) discipline.setN1(payload.get(n1));
-                    if (payload.containsKey(n2)) discipline.setN2(payload.get(n2));
-                    return ResponseEntity.ok(repository.save(discipline));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public DisciplineResponseDTO updateGrades(@PathVariable String id, @RequestBody Map<String, Double> payload) {
+        return service.updateGrades(id, payload.get(n1), payload.get(n2));
     }
 
     @DeleteMapping(/{id})
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 }

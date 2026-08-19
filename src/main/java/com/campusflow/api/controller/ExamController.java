@@ -1,10 +1,11 @@
 ﻿package com.campusflow.api.controller;
 
-import com.campusflow.api.domain.model.Exam;
-import com.campusflow.api.domain.repository.ExamRepository;
+import com.campusflow.api.dto.ExamRequestDTO;
+import com.campusflow.api.dto.ExamResponseDTO;
+import com.campusflow.api.service.ExamService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,25 +15,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExamController {
 
-    private final ExamRepository repository;
+    private final ExamService service;
 
     @GetMapping
-    public List<Exam> listAll() {
-        return repository.findAll();
+    public List<ExamResponseDTO> listAll() {
+        return service.listAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Exam create(@RequestBody Exam exam) {
-        return repository.save(exam);
+    public ExamResponseDTO create(@Valid @RequestBody ExamRequestDTO dto) {
+        return service.create(dto);
     }
 
     @DeleteMapping(/{id})
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 }

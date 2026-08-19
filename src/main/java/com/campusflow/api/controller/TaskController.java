@@ -1,10 +1,11 @@
 ﻿package com.campusflow.api.controller;
 
-import com.campusflow.api.domain.model.Task;
-import com.campusflow.api.domain.repository.TaskRepository;
+import com.campusflow.api.dto.TaskRequestDTO;
+import com.campusflow.api.dto.TaskResponseDTO;
+import com.campusflow.api.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,55 +15,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private final TaskRepository repository;
+    private final TaskService service;
 
     @GetMapping
-    public List<Task> listAll(@RequestParam(required = false) String disciplineId) {
-        if (disciplineId != null) {
-            return repository.findByDisciplineId(disciplineId);
-        }
-        return repository.findAll();
+    public List<TaskResponseDTO> listAll(@RequestParam(required = false) String disciplineId) {
+        return service.listAll(disciplineId);
     }
 
     @GetMapping(/{id})
-    public ResponseEntity<Task> getById(@PathVariable String id) {
-        return repository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public TaskResponseDTO getById(@PathVariable String id) {
+        return service.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
-        return repository.save(task);
+    public TaskResponseDTO create(@Valid @RequestBody TaskRequestDTO dto) {
+        return service.create(dto);
     }
 
     @PatchMapping(/{id}/toggle)
-    public ResponseEntity<Task> toggle(@PathVariable String id) {
-        return repository.findById(id)
-                .map(task -> {
-                    task.setCompleted(!Boolean.TRUE.equals(task.getCompleted()));
-                    return ResponseEntity.ok(repository.save(task));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public TaskResponseDTO toggle(@PathVariable String id) {
+        return service.toggle(id);
     }
 
     @PutMapping(/{id})
-    public ResponseEntity<Task> update(@PathVariable String id, @RequestBody Task task) {
-        return repository.findById(id)
-                .map(existing -> {
-                    task.setId(id);
-                    return ResponseEntity.ok(repository.save(task));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public TaskResponseDTO update(@PathVariable String id, @Valid @RequestBody TaskRequestDTO dto) {
+        return service.update(id, dto);
     }
 
     @DeleteMapping(/{id})
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 }

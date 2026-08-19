@@ -1,7 +1,9 @@
-﻿package com.campusflow.api.domain.model;
+package com.campusflow.api.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = disciplines)
@@ -31,4 +33,16 @@ public class Discipline {
 
     private Double n1;
     private Double n2;
+
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Task> tasks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Exam> exams = new ArrayList<>();
 }

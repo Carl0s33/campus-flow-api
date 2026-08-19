@@ -1,4 +1,4 @@
-﻿package com.campusflow.api.domain.model;
+package com.campusflow.api.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +34,7 @@ public class Task {
     @Builder.Default
     private Boolean completed = false;
 
-    private String disciplineId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "discipline_id", nullable = false)
+    private Discipline discipline;
 }

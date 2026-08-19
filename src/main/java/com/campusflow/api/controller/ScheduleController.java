@@ -1,10 +1,11 @@
 ﻿package com.campusflow.api.controller;
 
-import com.campusflow.api.domain.model.Schedule;
-import com.campusflow.api.domain.repository.ScheduleRepository;
+import com.campusflow.api.dto.ScheduleRequestDTO;
+import com.campusflow.api.dto.ScheduleResponseDTO;
+import com.campusflow.api.service.ScheduleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,28 +15,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final ScheduleRepository repository;
+    private final ScheduleService service;
 
     @GetMapping
-    public List<Schedule> listAll(@RequestParam(required = false) Integer dayOfWeek) {
-        if (dayOfWeek != null) {
-            return repository.findByDayOfWeek(dayOfWeek);
-        }
-        return repository.findAll();
+    public List<ScheduleResponseDTO> listAll(@RequestParam(required = false) Integer dayOfWeek) {
+        return service.listAll(dayOfWeek);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Schedule create(@RequestBody Schedule schedule) {
-        return repository.save(schedule);
+    public ScheduleResponseDTO create(@Valid @RequestBody ScheduleRequestDTO dto) {
+        return service.create(dto);
     }
 
     @DeleteMapping(/{id})
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String id) {
+        service.delete(id);
     }
 }
