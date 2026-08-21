@@ -1,83 +1,69 @@
-﻿# 🎓 Campus Flow API (Spring Boot + PostgreSQL)
+Campus Flow API ⚙️
 
-Backend RESTful para o aplicativo **Campus Flow**, construído com **Java 17, Spring Boot 3, Spring Data JPA e PostgreSQL**.
+## Visão Geral do Projeto
 
----
+O **Campus Flow API** é o núcleo de inteligência de dados e persistência do ecossistema Campus Flow. Trata-se de uma API RESTful desenvolvida em Java com Spring Boot, projetada para orquestrar a complexa gestão de horários, disciplinas, avaliações e tarefas de estudantes universitários.
 
-## 🚀 Tecnologias
+> **Aviso de Ecossistema:** Este repositório foca exclusivamente no backend e infraestrutura. Para o aplicativo de interface de usuário, consulte o repositório irmão: [Campus Flow Mobile](https://github.com/carl0s33/campus-flow-mobile-_2) (Substitua pelo link real do seu repositório).
 
-- **Java 17**
-- **Spring Boot 3**
-  - Spring Web (REST API)
-  - Spring Data JPA (Hibernate)
-  - Validation
-  - Lombok
-- **PostgreSQL**
-- **Maven** (com Maven Wrapper mvnw)
+O design da API garante alta coesão e baixo acoplamento, fornecendo endpoints estruturados, seguros e escaláveis para o consumo do cliente mobile.
 
----
+## Arquitetura de Software
 
-## 📦 Como Rodar Localmente
+A aplicação segue o padrão de Arquitetura em Camadas (Layered Architecture):
 
-### 1. Iniciar o Banco de Dados PostgreSQL via Docker
+*   **Controllers (`controller/`):** Camada de apresentação REST (Ex: `DisciplineController`, `ExamController`, `HealthController`).
+*   **Services (`service/`):** Validação e regras de negócio isoladas da persistência.
+*   **Repositories (`domain/repository/`):** Interfaces DAO via Spring Data JPA.
+*   **Models (`domain/model/`):** Entidades ORM mapeadas para o PostgreSQL.
+*   **DTOs (`dto/`):** Data Transfer Objects para prevenir *over-posting* e blindar o domínio.
 
-`ash
-docker compose up -d
-`
+### Tratamento de Exceções
+Implementação de um `GlobalExceptionHandler` para padronizar respostas de erro HTTP (ex: `EntityNotFoundException`), garantindo robustez na integração com o frontend.
 
-*(Ou utilize qualquer instância PostgreSQL local na porta 5432 com database campusflow_db, user postgres, senha postgres)*.
+## Pilha Tecnológica (Tech Stack)
 
-### 2. Rodar a API
+*   **Linguagem:** Java.
+*   **Framework:** Spring Boot.
+*   **ORM:** Spring Data JPA / Hibernate.
+*   **Banco de Dados:** PostgreSQL.
+*   **Migrações:** Ferramenta de versionamento SQL automatizada (ex: Flyway).
+*   **Infraestrutura:** Docker e Docker Compose.
 
-No Windows:
-`ash
-./mvnw.cmd spring-boot:run
-`
+## Banco de Dados e Migrações
 
-No Linux/macOS:
-`ash
-./mvnw spring-boot:run
-`
+A modelagem é garantida via scripts locais em `src/main/resources/db/migration/`:
 
-A API estará disponível em: http://localhost:8080
+*   `V1__create_tables.sql`: DDL de tabelas e constraints.
+*   `V2__insert_initial_mock_data.sql`: Dados essenciais para ambiente de desenvolvimento.
+*   `V3__insert_all_tads_disciplines.sql`: Script estratégico que preenche a base com toda a grade curricular de TADS (Análise e Desenvolvimento de Sistemas) do IFRN. Isso acelera o setup para o público-alvo principal, testando o banco de dados em um cenário de produção real.
 
----
+## Configuração e Execução Local
 
-## 📌 Endpoints da API
+### Pré-requisitos
+*   JDK instalado.
+*   Docker e Docker Compose operantes no host.
 
-### Health Check
-- GET / - Status da API
+### Passos
+1.  **Clone o Repositório.**
+2.  **Variáveis de Ambiente:** Crie o arquivo `.env` baseado em `.env.example`.
+3.  **Suba a Infraestrutura (PostgreSQL):**
+    ```bash
+    docker-compose up -d
+    ```
+4.  **Inicie a Aplicação:** Utilize o Maven Wrapper. Ideal para ambientes focados em performance no Linux, dispensa instalação global do Maven:
+    *Linux / macOS:*
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+    *Windows:*
+    ```cmd
+    mvnw.cmd spring-boot:run
+    ```
+5.  **Health Check:** Verifique a porta local para assegurar a prontidão via `HealthController`.
 
-### Disciplinas (/api/disciplines)
-- GET /api/disciplines - Listar todas
-- GET /api/disciplines/{id} - Buscar por ID
-- POST /api/disciplines - Criar disciplina
-- PUT /api/disciplines/{id} - Atualizar disciplina
-- PATCH /api/disciplines/{id}/absences - Atualizar faltas
-- PATCH /api/disciplines/{id}/grades - Atualizar notas (N1/N2)
-- DELETE /api/disciplines/{id} - Deletar disciplina
-
-### Tarefas (/api/tasks)
-- GET /api/tasks - Listar todas (suporta ?disciplineId=...)
-- POST /api/tasks - Criar tarefa
-- PATCH /api/tasks/{id}/toggle - Alternar status concluída/pendente
-- PUT /api/tasks/{id} - Atualizar tarefa
-- DELETE /api/tasks/{id} - Deletar tarefa
-
-### Horários (/api/schedules)
-- GET /api/schedules - Listar horários (suporta ?dayOfWeek=...)
-- POST /api/schedules - Criar horário
-- DELETE /api/schedules/{id} - Deletar horário
-
-### Avaliações/Provas (/api/exams)
-- GET /api/exams - Listar provas
-- POST /api/exams - Criar prova
-- DELETE /api/exams/{id} - Deletar prova
+## Integração (CORS)
+A comunicação com a rede local ou clientes externos está definida em `CorsConfig.java`, permitindo fácil comunicação com o React Native durante o desenvolvimento.
 
 ---
-
-## 🌿 Estrutura GitFlow
-
-- main: Branch de produção
-- develop: Branch de integração e desenvolvimento
-- eature/initial-spring-boot-setup: Branch com o setup inicial dos módulos
+*Licença contida no arquivo LICENSE do repositório.*
