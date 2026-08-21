@@ -9,5 +9,6 @@ public record TaskResponseDTO(
     String priority,
     Boolean completed,
     String disciplineId,
-    String disciplineName
+    String disciplineName,
+    Integer pomodoroCount
 ) {}

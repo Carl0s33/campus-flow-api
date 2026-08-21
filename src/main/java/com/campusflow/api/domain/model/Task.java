@@ -34,6 +34,9 @@ public class Task {
     @Builder.Default
     private Boolean completed = false;
 
+    @Builder.Default
+    private Integer pomodoroCount = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discipline_id", nullable = false)
     private Discipline discipline;

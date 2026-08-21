@@ -15,5 +15,6 @@ public record DisciplineRequestDTO(
     Integer workload,
     Integer period,
     Double n1,
-    Double n2
+    Double n2,
+    Double recoveryGrade
 ) {}

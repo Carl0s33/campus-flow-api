@@ -34,6 +34,10 @@ public class Discipline {
 
     private Double n1;
     private Double n2;
+    private Double recoveryGrade;
+
+    @Builder.Default
+    private Integer pomodoroCount = 0;
 
     @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

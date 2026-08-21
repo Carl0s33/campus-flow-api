@@ -46,7 +46,12 @@ public class DisciplineController {
 
     @PatchMapping("/{id}/grades")
     public DisciplineResponseDTO updateGrades(@PathVariable String id, @RequestBody Map<String, Double> payload) {
-        return service.updateGrades(id, payload.get("n1"), payload.get("n2"));
+        return service.updateGrades(id, payload.get("n1"), payload.get("n2"), payload.get("recoveryGrade"));
+    }
+
+    @PatchMapping("/{id}/pomodoro")
+    public DisciplineResponseDTO incrementPomodoro(@PathVariable String id) {
+        return service.incrementPomodoro(id);
     }
 
     @DeleteMapping("/{id}")

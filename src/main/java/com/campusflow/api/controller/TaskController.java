@@ -43,6 +43,11 @@ public class TaskController {
         return service.update(id, dto);
     }
 
+    @PatchMapping("/{id}/pomodoro")
+    public TaskResponseDTO incrementPomodoro(@PathVariable String id) {
+        return service.incrementPomodoro(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id) {

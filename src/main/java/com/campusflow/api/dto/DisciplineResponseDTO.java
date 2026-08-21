@@ -10,5 +10,12 @@ public record DisciplineResponseDTO(
     Integer workload,
     Integer period,
     Double n1,
-    Double n2
+    Double n2,
+    Double recoveryGrade,
+    Integer pomodoroCount,
+    Double finalGrade,
+    String statusText,
+    String statusColor,
+    Boolean isApproved,
+    Boolean inRecovery
 ) {}

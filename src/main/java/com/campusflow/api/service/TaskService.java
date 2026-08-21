@@ -49,6 +49,12 @@ public class TaskService {
         return toDTO(repository.save(task));
     }
 
+    public TaskResponseDTO incrementPomodoro(String id) {
+        Task task = findEntityById(id);
+        task.setPomodoroCount(task.getPomodoroCount() + 1);
+        return toDTO(repository.save(task));
+    }
+
     public void delete(String id) {
         Task task = findEntityById(id);
         repository.delete(task);
@@ -79,7 +85,8 @@ public class TaskService {
                 task.getPriority(),
                 task.getCompleted(),
                 task.getDiscipline().getId(),
-                task.getDiscipline().getName()
+                task.getDiscipline().getName(),
+                task.getPomodoroCount()
         );
     }
 }
