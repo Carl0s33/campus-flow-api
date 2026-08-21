@@ -4,7 +4,7 @@ Campus Flow API ⚙️
 
 O **Campus Flow API** é o núcleo de inteligência de dados e persistência do ecossistema Campus Flow. Trata-se de uma API RESTful desenvolvida em Java com Spring Boot, projetada para orquestrar a complexa gestão de horários, disciplinas, avaliações e tarefas de estudantes universitários.
 
-> **Aviso de Ecossistema:** Este repositório foca exclusivamente no backend e infraestrutura. Para o aplicativo de interface de usuário, consulte o repositório irmão: [Campus Flow Mobile](https://github.com/carl0s33/campus-flow-mobile-_2) (Substitua pelo link real do seu repositório).
+> **Aviso de Ecossistema:** Este repositório foca exclusivamente no backend e infraestrutura. Para o aplicativo de interface de usuário, consulte o repositório irmão: [Campus Flow Mobile](https://github.com/carl0s33/campus-flow-mobile-_2) 
 
 O design da API garante alta coesão e baixo acoplamento, fornecendo endpoints estruturados, seguros e escaláveis para o consumo do cliente mobile.
 
